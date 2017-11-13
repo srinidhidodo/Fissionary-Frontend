@@ -1,0 +1,62 @@
+<html>
+<head>
+	<link rel="stylesheet" href="home.css">
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body class="parallax-bg">
+	<div class="page-divs" style="background-color:black; text-align:center; color:white; font-size:40px" > Fissionary </div>
+	<div class="page-divs" style="background-color:black; height:80%; text-align:center; color:white; font-size:30px" >
+		<div>
+			Locations Near You
+		</div>
+		<p />
+		<div id="container" >
+			<div id="mapDiv" style="float:left; height:80%; width:49%; border:1px solid white"> Map </div>
+			<div id="listDiv" style="float:right; width:49%; "> 
+			List of Locations Near You <br />
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		
+		function showLocationList()
+		{
+			/*if(xhr.readyState==4 && xhr.status==200)
+			{
+				var theList = JSON.parse(xhr.responseText); */
+				var sampleJSON = "{\"locations\":[{\"locationId\":1,\"locationName\":\"loc1\"},{\"locationId\":2,\"locationName\":\"loc2\"}]}";
+				var theList = JSON.parse(sampleJSON);
+				console.log(theList);
+				
+				var listDiv = document.getElementById("listDiv");
+				
+				//MAP PART FROM VIDYA
+				
+				var listHtml = document.createElement("p");
+				for (var i=0; i<theList.locations.length; i++) //Check what is to be iterated with JSON; CHECK
+				{
+					li = document.createElement("p");
+					a = document.createElement("a");
+					li.appendChild(a);
+					a.innerHTML = theList.locations[i].locationName; //Check locationName with JSON; CHECK
+					a.href = "location.html?lid="+theList.locations[i].locationId; //Check locationId with JSON; CHECK
+					listHtml.appendChild(li);
+				}
+				listDiv.appendChild(listHtml);
+			//}
+		}
+		
+		/*xhr = new XMLHttpRequest();
+		xhr.open("GET","http://localhost:5000/locations",true);
+		xhr.onreadystatechange=showLocationList;
+		xhr.send(); */
+		
+		showLocationList();
+		
+		
+	</script>
+</body>
+</html>

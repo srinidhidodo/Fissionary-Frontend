@@ -1,0 +1,125 @@
+<html>
+<head>
+	<link rel="stylesheet" href="home.css">
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body class="parallax-bg">
+	<div class="page-divs" style="background-color:black; text-align:center; color:white; font-size:40px" > Fissionary </div>
+	<div class="page-divs" style="background-color:black; height:80%; text-align:center; color:white; font-size:30px" >
+		<div>
+			Places Near You
+		</div>
+		<p />
+		<div id="container" >
+			<div id="mapDiv" style="float:left; height:80%; width:49%; border:1px solid white"> Map </div>
+			<div id="listDiv" style="float:right; width:49%; "> 
+			Recommended Places to Visit (Ranked) <br />
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//var s = "{\"locations\":[{\"locationId\":1,\"locationName\":\"loc1\",\"places\":[{\"placeId\":1,\"placeName\":\"place1\",\"placeSize\":100,\"threshold\":50,\"placeDensity\":{\"time\":\"12:00\",\"density\":10}},{\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":10,\"placeDensity\":{\"time\":\"20:00\",\"density\":100}}]}]}";
+		//Or whatever JSON is received, XHR req sent per minute, and retrieved.
+		/*
+		*/
+		//var ps = JSON.parse(s);
+		//console.log(ps.locations[0].locationName);
+		
+		function showPlaceList()
+		{
+			/*if(xhr1.readyState==4 && xhr1.status==200)
+			{
+				var theList = JSON.parse(xhr1.responseText); */
+				
+				var sampleJSON = "{\"location\":{\"latitude\":\"12.22\",\"locationId\":1,\"locationName\":\"loc1\",\"longitude\":\"20.22\",\"places\":[{\"latitude\":\"34.22\",\"longitude\":\"40.22\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"place1\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"11.22\",\"longitude\":\"80.22\",\"placeDensity\":{\"density\":100,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":10}]}}";
+				var theList = JSON.parse(sampleJSON);
+				console.log(theList);
+				
+				var listDiv = document.getElementById("listDiv");
+				var listHtml = document.createElement("p");
+				
+				var measureList = [];
+				
+				//Create density measurement array
+				for (var i=0; i<theList.location.places.length; i++)
+				{
+					var ratio = theList.location.places[i].placeDensity.density/theList.location.places[i].threshold;
+					console.log(i+" : "+ratio);
+					measureList[ratio]=i;
+				}
+				console.log(measureList);
+				
+				//Sort density measurement array
+				var sortedOrder = [];
+				console.log("Sorted");
+				for (var i=0; i<measureList.length; i++)
+				{
+					var curr = 2000000;
+					var l = -1;
+					for (var key in measureList)
+					{
+						if (key < curr)
+						{
+							curr = key;
+							l = measureList[key];
+						}
+					}
+					sortedOrder.push(l);
+					delete measureList[curr];
+					console.log(curr+" : "+l+"; "+measureList);
+				}
+				for (var i=sortedOrder.length-1; i>=0; i--)
+				{
+					if (sortedOrder[i]==-1)
+						sortedOrder.splice(i,1);
+				}
+				console.log(sortedOrder);
+				
+				//Construct sorted places loop
+				sortedPlaces = []
+				for (var i=0; i<sortedOrder.length; i++)
+				{
+					sortedPlaces.push(theList.location.places[sortedOrder[i]]);
+				}
+				console.log(sortedPlaces);
+				
+				//display loop
+				for (var i=0; i<sortedPlaces.length; i++)
+				{
+					li = document.createElement("p");
+					a = document.createElement("a");
+					li.appendChild(a);
+					a.innerHTML = sortedPlaces[i].placeName;
+					a.href = "place.html?lid="+theList.location.locationId+"&pid="+sortedPlaces[i].placeId;
+					listHtml.appendChild(li);
+				}
+				listDiv.appendChild(listHtml);
+				
+				//VIDYA'S MAP PART
+				
+			//}
+		}
+		
+		function showLocation(id)
+		{
+			/*
+			xhr1 = new XMLHttpRequest();
+			xhr1.open("GET","http://localhost:5000/locations/"+id,true);
+			xhr1.onreadystatechange = showPlaceList;
+			xhr1.send(); */
+			
+			showPlaceList();
+		}
+		
+		params = (new URL(document.location)).searchParams;
+		locationId = params.get("lid");
+		//alert(locationId);
+		showLocation(locationId);
+		
+		
+	</script>
+</body>
+</html>
