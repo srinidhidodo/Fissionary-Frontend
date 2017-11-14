@@ -14,7 +14,7 @@
 		</div>
 		<p />
 		<div id="container" >
-			<div id="mapDiv" style="float:left; height:80%; width:49%; border:1px solid white"> Map </div>
+			<div id="map" style="float:left; height:80%; width:49%; border:1px solid white"> Map </div>
 			<div id="listDiv" style="float:right; width:49%; "> 
 			List of Locations Near You <br />
 			</div>
@@ -58,5 +58,63 @@
 		
 		
 	</script>
+	<script>
+      function initMap() {
+		var xhr = new XMLHttpRequest();
+			xhr.open("GET" , "config.json" , true) ;
+			xhr.onreadystatechange = function(){
+				if(this.status == 200 && this.readyState==4)
+				{					
+					handle_geolocation_query(JSON.parse(xhr.responseText));
+				}
+			};
+			xhr.send();
+		}
+	  function handle_geolocation_query(config_json)
+	  {
+        /*var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });*/
+		
+		var address = config_json['location'];
+		var _lat =0;
+		var _lng = 0;
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode(
+		{
+			'address': config_json['location']
+		},
+		function(results, status) 
+		{                      
+			_lat = results[0].geometry.location.lat();
+			_lng = results[0].geometry.location.lng();
+			console.log("inside function " + _lat + "::"+_lng+"::"+parseInt(config_json['map_zoom']));			
+			var uluru = {lat: _lat, lng: _lng};
+			var map = new google.maps.Map(document.getElementById('map'), {  zoom: parseInt(config_json['map_zoom']), center:uluru     });
+			var marker = new google.maps.Marker(
+			{
+				position: uluru,
+				map: map
+			});
+			markpoints(config_json);
+		});
+	
+      }
+	  
+	  function markpoints(config_json)
+	  {		
+		for(var key in config_json['sub_locations'])
+			console.log(key+ "  " + config_json['sub_locations'][key]['ID']);
+	  }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-1PozKHxTwZPlZmj9ius6615N7ksfM_8&callback=initMap">
+    </script>
 </body>
 </html>
