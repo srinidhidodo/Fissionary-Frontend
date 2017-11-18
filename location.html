@@ -1,5 +1,8 @@
 <html>
 <head>
+	<script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-1PozKHxTwZPlZmj9ius6615N7ksfM_8">
+    </script>
 	<link rel="stylesheet" href="home.css">
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +17,7 @@
 		</div>
 		<p />
 		<div id="container" >
-			<div id="mapDiv" style="float:left; height:80%; width:49%; border:1px solid white"> Map </div>
+			<div id="map" style="float:left; height:80%; width:49%; border:1px solid white"> Map </div>
 			<div id="listDiv" style="float:right; width:49%; "> 
 			Recommended Places to Visit (Ranked) <br />
 			</div>
@@ -27,14 +30,84 @@
 		*/
 		//var ps = JSON.parse(s);
 		//console.log(ps.locations[0].locationName);
-		
+		// 12.834556,77.4001127,17z
+		//var sampleJSON = "{\"location\" : {\"latitude\" : \"12.834556\"  }"}"
+		function Showmaps()
+		{
+			var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":160,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":100}]}}";
+			console.log("in show maps11111");
+			var theList = JSON.parse(sampleJSON);
+				console.log(theList);
+				var mainuluru = {lat: 12.835423, lng: 77.400913};
+		var map = new google.maps.Map(document.getElementById('map'), {  zoom: 17, center:mainuluru     });
+				var listDiv = document.getElementById("listDiv");
+				var listHtml = document.createElement("p");
+				
+				//var measureList = [];
+				
+				//Create density measurement rray
+				for (var i=0; i<theList.location.places.length; i++)
+				{
+					console.log("in loop"+theList.location.places[i].	placeDensity.density+" "
+					+theList.location.places[i].placeSize);
+					var ratio = theList.location.places[i].	placeDensity.density/theList.location.places[i].placeSize;
+					console.log(i+" : "+ratio);
+					thresholdratio = theList.location.places[i].threshold/theList.location.places[i].placeSize;
+					console.log(thresholdratio);
+					console.log("lat::::"+parseFloat(theList.location.places[i].latitude))
+					var uluru = {lat: parseFloat(theList.location.places[i].latitude), lng:parseFloat(theList.location.places[i].longitude)};
+					console.log("uluru::::"+uluru['lng']);
+					if(ratio>thresholdratio)
+					{
+						console.log("in if1");
+						//var uluru = {lat: _lat, lng: _lng};
+				
+						var marker = new google.maps.Marker(
+						{
+							position: uluru,
+							map: map
+							
+						});
+				
+					}
+					
+					else if(0.9>ratio>thresholdratio)
+					{
+						console.log("in if2");
+				
+						var marker = new google.maps.Marker(
+						{
+							position: uluru,
+							map: map
+						});	
+				
+					}
+					else
+					{
+						console.log("in if3");
+						//var uluru = {lat: _lat, lng: _lng};
+				
+						var marker = new google.maps.Marker(
+						{
+							position: uluru,
+							map: map,
+							//icon:"bluepin.png"
+						});
+				
+					}
+					//measureList[ratio]=i;
+					//if(ratio<)
+				}
+				//console.log(measureList);
+				console.log("end of show maps");
+		}
 		function showPlaceList()
 		{
 			/*if(xhr1.readyState==4 && xhr1.status==200)
 			{
 				var theList = JSON.parse(xhr1.responseText); */
 				
-				var sampleJSON = "{\"location\":{\"latitude\":\"12.22\",\"locationId\":1,\"locationName\":\"loc1\",\"longitude\":\"20.22\",\"places\":[{\"latitude\":\"34.22\",\"longitude\":\"40.22\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"place1\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"11.22\",\"longitude\":\"80.22\",\"placeDensity\":{\"density\":100,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":10}]}}";
+				var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":100,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":100}]}}";
 				var theList = JSON.parse(sampleJSON);
 				console.log(theList);
 				
@@ -76,6 +149,7 @@
 					if (sortedOrder[i]==-1)
 						sortedOrder.splice(i,1);
 				}
+				console.log("sorted order:");
 				console.log(sortedOrder);
 				
 				//Construct sorted places loop
@@ -84,6 +158,7 @@
 				{
 					sortedPlaces.push(theList.location.places[sortedOrder[i]]);
 				}
+				console.log("sorted places");
 				console.log(sortedPlaces);
 				
 				//display loop
@@ -99,7 +174,7 @@
 				listDiv.appendChild(listHtml);
 				
 				//VIDYA'S MAP PART
-				
+				Showmaps(measureList);
 			//}
 		}
 		
@@ -121,5 +196,6 @@
 		
 		
 	</script>
+	
 </body>
 </html>
