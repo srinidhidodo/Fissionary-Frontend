@@ -61,7 +61,7 @@
 					handle_geolocation_query(sampleJSON);
 		
 		}
-		function drawMap( add)
+		function drawMap( add , map)
 		{
 			console.log("---");
 			console.log(add);
@@ -79,7 +79,7 @@
 				_lng = results[0].geometry.location.lng();
 				//console.log("inside function " + _lat + "::"+_lng+"::"+parseInt(config_json[i]['map_zoom']));			
 				var uluru = {lat: _lat, lng: _lng};
-				var map = new google.maps.Map(document.getElementById('map'), {  zoom: 17, center:uluru     });
+				//var map = new google.maps.Map(document.getElementById('map'), {  zoom: 17, center:uluru     });
 				var marker = new google.maps.Marker(
 				{
 					position: uluru,
@@ -93,6 +93,10 @@
 		}
 	  function handle_geolocation_query(str_json)
 	  {
+		var uluru = {lat: 22.9734, lng: 78.6569};
+		var map = new google.maps.Map(document.getElementById('map'), {  zoom: 5, center:uluru     });
+		
+	  
 		//console.log("hey");
 		//console.log(typeof config_json);
 		//console.log(config_json[0]);
@@ -150,7 +154,7 @@
 					drawMap(config_json['locations'][key][key1]);
 					
 				}*/
-				drawMap(config_json['locations'][key]['locationName']);
+				drawMap(config_json['locations'][key]['locationName'] , map);
 			}
 		}
 	 }
