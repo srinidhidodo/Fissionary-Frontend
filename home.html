@@ -61,15 +61,44 @@
 					handle_geolocation_query(sampleJSON);
 		
 		}
+		function drawMap( add)
+		{
+			console.log("---");
+			console.log(add);
+			var address = add;//config_json[i]['locationName'];
+			var _lat =0;
+			var _lng = 0;
+        	geocoder = new google.maps.Geocoder();
+        	geocoder.geocode(
+			{
+				'address': address
+			},
+			function(results, status) 
+			{                      
+				_lat = results[0].geometry.location.lat();
+				_lng = results[0].geometry.location.lng();
+				//console.log("inside function " + _lat + "::"+_lng+"::"+parseInt(config_json[i]['map_zoom']));			
+				var uluru = {lat: _lat, lng: _lng};
+				var map = new google.maps.Map(document.getElementById('map'), {  zoom: 17, center:uluru     });
+				var marker = new google.maps.Marker(
+				{
+					position: uluru,
+					map: map
+				});
+				
+			});
+			
+	
+			//
+		}
 	  function handle_geolocation_query(str_json)
 	  {
 		//console.log("hey");
 		//console.log(typeof config_json);
 		//console.log(config_json[0]);
-		//console.log(JSON.parse(config_json));
-		config_json = JSON.parse(str_json)
+		//console.log(JSON.parse(config_json));		
 		//console.log(config_json);
-		console.log(config_json['locations']);
+		/*console.log(config_json['locations']);
 		for(var key in config_json['locations'])
 			console.log(key);
 			for (var key in config_json['locations']) {
@@ -80,9 +109,9 @@
 					console.log(config_json['locations'][key][key1]);
 					}
 			}
-			}
-		for(i=0;i<1;i++)
-		{
+			}*/
+		//for(i=0;i<1;i++)
+		//{
 			//var address = config_json[i]['locationName'];
 			/*var _lat =0;
 			var _lng = 0;
@@ -107,8 +136,24 @@
 			});*/
 			//console.log(address);
 	
-      }
-	  }
+			//}
+		config_json = JSON.parse(str_json)		
+		for (var key in config_json['locations']) 
+		{
+			if (config_json['locations'].hasOwnProperty(key)) 
+			{
+				//console.log(key + " -> " + config_json['locations'][key]);
+				/*for (var key1 in config_json['locations'][key])
+				{
+					//console.log(key1);
+					//console.log(config_json['locations'][key][key1]);
+					drawMap(config_json['locations'][key][key1]);
+					
+				}*/
+				drawMap(config_json['locations'][key]['locationName']);
+			}
+		}
+	 }
 	  
 	  
     </script>
