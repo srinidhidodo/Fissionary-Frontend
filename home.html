@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var sampleJSON = "{\"locations\":[{\"locationId\":1,\"locationName\":\"Woonder La\"},{\"locationId\":2,\"locationName\":\"Essel World\"}]}";		
+		var sampleJSON = "{\"locations\":[{\"locationId\":1,\"locationName\":\"WoonderLa\"},{\"locationId\":2,\"locationName\":\"Essel World\"}]}";		
 		function showLocationList()
 		{
 			/*if(xhr.readyState==4 && xhr.status==200)
@@ -61,26 +61,43 @@
 					handle_geolocation_query(sampleJSON);
 		
 		}
-	  function handle_geolocation_query(config_json)
+	  function handle_geolocation_query(str_json)
 	  {
-		for(i=0;i<config_json.length;i++)
+		//console.log("hey");
+		//console.log(typeof config_json);
+		//console.log(config_json[0]);
+		//console.log(JSON.parse(config_json));
+		config_json = JSON.parse(str_json)
+		//console.log(config_json);
+		console.log(config_json['locations']);
+		for(var key in config_json['locations'])
+			console.log(key);
+			for (var key in config_json['locations']) {
+				if (config_json['locations'].hasOwnProperty(key)) {
+				console.log(key + " -> " + config_json['locations'][key]);
+				for (var key1 in config_json['locations'][key]){
+					console.log(key1);
+					console.log(config_json['locations'][key][key1]);
+					}
+			}
+			}
+		for(i=0;i<1;i++)
 		{
-			var address = config_json[i]['location'];
-			console.log(adress);
+			//var address = config_json[i]['locationName'];
 			/*var _lat =0;
 			var _lng = 0;
         	geocoder = new google.maps.Geocoder();
         	geocoder.geocode(
 			{
-				'address': config_json[i]['location']
+				'address': config_json[i]['locationName']
 			},
 			function(results, status) 
 			{                      
 				_lat = results[0].geometry.location.lat();
 				_lng = results[0].geometry.location.lng();
-				console.log("inside function " + _lat + "::"+_lng+"::"+parseInt(config_json[i]['map_zoom']));			
+				//console.log("inside function " + _lat + "::"+_lng+"::"+parseInt(config_json[i]['map_zoom']));			
 				var uluru = {lat: _lat, lng: _lng};
-				var map = new google.maps.Map(document.getElementById('map'), {  zoom: parseInt(config_json[i]['map_zoom']), center:uluru     });
+				var map = new google.maps.Map(document.getElementById('map'), {  zoom: 17, center:uluru     });
 				var marker = new google.maps.Marker(
 				{
 					position: uluru,
@@ -88,8 +105,9 @@
 				});
 				
 			});*/
+			//console.log(address);
 	
-      	}
+      }
 	  }
 	  
 	  
