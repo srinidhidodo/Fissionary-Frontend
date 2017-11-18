@@ -48,12 +48,6 @@
 				listDiv.appendChild(listHtml);
 			//}
 		}
-		
-		/*xhr = new XMLHttpRequest();
-		xhr.open("GET","http://localhost:5000/locations",true);
-		xhr.onreadystatechange=showLocationList;
-		xhr.send(); */
-		
 		showLocationList();		
 		
 	
@@ -65,7 +59,7 @@
 		{
 			console.log("---");
 			console.log(add);
-			var address = add;//config_json[i]['locationName'];
+			var address = add;
 			var _lat =0;
 			var _lng = 0;
         	geocoder = new google.maps.Geocoder();
@@ -76,10 +70,9 @@
 			function(results, status) 
 			{                      
 				_lat = results[0].geometry.location.lat();
-				_lng = results[0].geometry.location.lng();
-				//console.log("inside function " + _lat + "::"+_lng+"::"+parseInt(config_json[i]['map_zoom']));			
+				_lng = results[0].geometry.location.lng();				
 				var uluru = {lat: _lat, lng: _lng};
-				//var map = new google.maps.Map(document.getElementById('map'), {  zoom: 17, center:uluru     });
+				
 				var marker = new google.maps.Marker(
 				{
 					position: uluru,
@@ -87,73 +80,16 @@
 				});
 				
 			});
-			
-	
-			//
 		}
 	  function handle_geolocation_query(str_json)
 	  {
 		var uluru = {lat: 22.9734, lng: 78.6569};
 		var map = new google.maps.Map(document.getElementById('map'), {  zoom: 5, center:uluru     });
-		
-	  
-		//console.log("hey");
-		//console.log(typeof config_json);
-		//console.log(config_json[0]);
-		//console.log(JSON.parse(config_json));		
-		//console.log(config_json);
-		/*console.log(config_json['locations']);
-		for(var key in config_json['locations'])
-			console.log(key);
-			for (var key in config_json['locations']) {
-				if (config_json['locations'].hasOwnProperty(key)) {
-				console.log(key + " -> " + config_json['locations'][key]);
-				for (var key1 in config_json['locations'][key]){
-					console.log(key1);
-					console.log(config_json['locations'][key][key1]);
-					}
-			}
-			}*/
-		//for(i=0;i<1;i++)
-		//{
-			//var address = config_json[i]['locationName'];
-			/*var _lat =0;
-			var _lng = 0;
-        	geocoder = new google.maps.Geocoder();
-        	geocoder.geocode(
-			{
-				'address': config_json[i]['locationName']
-			},
-			function(results, status) 
-			{                      
-				_lat = results[0].geometry.location.lat();
-				_lng = results[0].geometry.location.lng();
-				//console.log("inside function " + _lat + "::"+_lng+"::"+parseInt(config_json[i]['map_zoom']));			
-				var uluru = {lat: _lat, lng: _lng};
-				var map = new google.maps.Map(document.getElementById('map'), {  zoom: 17, center:uluru     });
-				var marker = new google.maps.Marker(
-				{
-					position: uluru,
-					map: map
-				});
-				
-			});*/
-			//console.log(address);
-	
-			//}
 		config_json = JSON.parse(str_json)		
 		for (var key in config_json['locations']) 
 		{
 			if (config_json['locations'].hasOwnProperty(key)) 
-			{
-				//console.log(key + " -> " + config_json['locations'][key]);
-				/*for (var key1 in config_json['locations'][key])
-				{
-					//console.log(key1);
-					//console.log(config_json['locations'][key][key1]);
-					drawMap(config_json['locations'][key][key1]);
-					
-				}*/
+			{				
 				drawMap(config_json['locations'][key]['locationName'] , map);
 			}
 		}
