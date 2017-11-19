@@ -17,7 +17,7 @@
 		</div>
 		<p />
 		<div id="container" >
-			<div><img src="foo3.png">Least density <img src="foo2.png">Moderately dense<img src="foo1.png">Very dense</div>
+			<div><img src="foo3.png"> Least density       <img src="foo2.png"> Moderately dense       <img src="foo1.png">Very dense</div>
 			<div id="map" style="float:left; height:80%; width:49%; border:1px solid white"> Map </div>
 			<div id="listDiv" style="float:right; width:49%; "> 
 			Recommended Places to Visit (Ranked) <br />
@@ -33,6 +33,7 @@
 		//console.log(ps.locations[0].locationName);
 		// 12.834556,77.4001127,17z
 		//var sampleJSON = "{\"location\" : {\"latitude\" : \"12.834556\"  }"}"
+		var sampleJSON;
 		function drawmarker(uluru , map , iconname)
 		{
 			console.log("in marker :: "+ uluru + "::" + iconname);
@@ -46,8 +47,8 @@
 		}
 		function Showmaps()
 		{
-			var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834682\",\"longitude\":\"77.399030\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.8345612\",\"longitude\":\"77.3987833\",\"placeDensity\":{\"density\":290,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"XDMax\",\"placeSize\":300,\"threshold\":100},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50}]}}";
-			console.log("in show maps11111");
+			//var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834682\",\"longitude\":\"77.399030\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.8345612\",\"longitude\":\"77.3987833\",\"placeDensity\":{\"density\":290,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"XDMax\",\"placeSize\":300,\"threshold\":100},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50}]}}";
+			//console.log("in show maps11111");
 			var theList = JSON.parse(sampleJSON);
 				console.log(theList);
 				var mainuluru = {lat: 12.835423, lng: 77.400913};
@@ -80,13 +81,14 @@
 				
 				console.log("end of show maps");
 		}
+		
 		function showPlaceList()
 		{
-			/*if(xhr1.readyState==4 && xhr1.status==200)
+			if(xhr1.readyState==4 && xhr1.status==200)
 			{
-				var theList = JSON.parse(xhr1.responseText); */
+				var sampleJSON = xhr1.responseText;
 				
-				var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":100,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"XDMax\",\"placeSize\":200,\"threshold\":100}]}}";
+				//var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":100,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"XDMax\",\"placeSize\":200,\"threshold\":100}]}}";
 				var theList = JSON.parse(sampleJSON);
 				console.log(theList);
 				
@@ -154,18 +156,19 @@
 				
 				//VIDYA'S MAP PART
 				Showmaps(measureList);
-			//}
+			}
 		}
 		
 		function showLocation(id)
 		{
-			/*
+			
 			xhr1 = new XMLHttpRequest();
 			xhr1.open("GET","http://localhost:5000/locations/"+id,true);
+			//xhr1.open("GET","test2.php",true);
 			xhr1.onreadystatechange = showPlaceList;
-			xhr1.send(); */
+			xhr1.send(); 
 			
-			showPlaceList();
+			//showPlaceList();
 		}
 		
 		params = (new URL(document.location)).searchParams;
