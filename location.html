@@ -24,7 +24,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		//var s = "{\"locations\":[{\"locationId\":1,\"locationName\":\"loc1\",\"places\":[{\"placeId\":1,\"placeName\":\"place1\",\"placeSize\":100,\"threshold\":50,\"placeDensity\":{\"time\":\"12:00\",\"density\":10}},{\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":10,\"placeDensity\":{\"time\":\"20:00\",\"density\":100}}]}]}";
+		//var s = "{\"locations\":[{\"locationId\":1,\"locationName\":\"loc1\",\"places\":[{\"placeId\":1,\"placeName\":\"place1\",\"placeSize\":100,\"threshold\":50,\"placeDensity\":{\"time\":\"12:00\",\"density\":10}},{\"placeId\":2,\"placeName\":\"XDMax\",\"placeSize\":200,\"threshold\":10,\"placeDensity\":{\"time\":\"20:00\",\"density\":100}}]}]}";
 		//Or whatever JSON is received, XHR req sent per minute, and retrieved.
 		/*
 		*/
@@ -32,9 +32,20 @@
 		//console.log(ps.locations[0].locationName);
 		// 12.834556,77.4001127,17z
 		//var sampleJSON = "{\"location\" : {\"latitude\" : \"12.834556\"  }"}"
+		function drawmarker(uluru , map , iconname)
+		{
+			console.log("in marker :: "+ uluru + "::" + iconname);
+			var marker = new google.maps.Marker(
+						{
+							position: uluru,
+							map: map,
+							icon: iconname
+							
+						});
+		}
 		function Showmaps()
 		{
-			var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":160,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":100}]}}";
+			var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834682\",\"longitude\":\"77.399030\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.8345612\",\"longitude\":\"77.3987833\",\"placeDensity\":{\"density\":290,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"XDMax\",\"placeSize\":300,\"threshold\":100},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50}]}}";
 			console.log("in show maps11111");
 			var theList = JSON.parse(sampleJSON);
 				console.log(theList);
@@ -48,51 +59,52 @@
 				//Create density measurement rray
 				for (var i=0; i<theList.location.places.length; i++)
 				{
-					console.log("in loop"+theList.location.places[i].	placeDensity.density+" "
-					+theList.location.places[i].placeSize);
+					//console.log("in loop"+theList.location.places[i].	placeDensity.density+" "
+					//+theList.location.places[i].placeSize);
 					var ratio = theList.location.places[i].	placeDensity.density/theList.location.places[i].placeSize;
-					console.log(i+" : "+ratio);
+					//console.log(i+" : "+ratio);
 					thresholdratio = theList.location.places[i].threshold/theList.location.places[i].placeSize;
-					console.log(thresholdratio);
-					console.log("lat::::"+parseFloat(theList.location.places[i].latitude))
+					//console.log(thresholdratio);
+					//console.log("lat::::"+parseFloat(theList.location.places[i].latitude))
 					var uluru = {lat: parseFloat(theList.location.places[i].latitude), lng:parseFloat(theList.location.places[i].longitude)};
-					console.log("uluru::::"+uluru['lng']);
+					//console.log("uluru::::"+uluru['lng']);
+					console.log(uluru);
 					if(ratio>thresholdratio)
 					{
-						console.log("in if1");
+						console.log("in if1"+theList.location.places[i]['placeName']);
 						//var uluru = {lat: _lat, lng: _lng};
-				
-						var marker = new google.maps.Marker(
-						{
-							position: uluru,
-							map: map
-							
-						});
+						//console.log("heyyyy");
+						//console.log(uluru);
+						//console.log("baeee");
+						drawmarker(uluru , map , "foo3.png");
+						
 				
 					}
 					
 					else if(0.9>ratio>thresholdratio)
 					{
-						console.log("in if2");
-				
-						var marker = new google.maps.Marker(
+						console.log("in if2" + theList.location.places[i]['placeName']);
+						console.log(uluru);
+						/*var marker = new google.maps.Marker(
 						{
 							position: uluru,
-							map: map
-						});	
-				
+							map: map,
+							icon:"foo2.png"
+						});	*/
+						drawmarker(uluru , map , "foo2.png");
 					}
 					else
 					{
 						console.log("in if3");
 						//var uluru = {lat: _lat, lng: _lng};
 				
-						var marker = new google.maps.Marker(
+						/*var marker = new google.maps.Marker(
 						{
 							position: uluru,
 							map: map,
-							//icon:"bluepin.png"
-						});
+							icon:"foo1.png"
+						});*/
+						drawmarker(uluru , map , "foo1.png");
 				
 					}
 					//measureList[ratio]=i;
@@ -107,7 +119,7 @@
 			{
 				var theList = JSON.parse(xhr1.responseText); */
 				
-				var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":100,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"place2\",\"placeSize\":200,\"threshold\":100}]}}";
+				var sampleJSON = "{\"location\":{\"latitude\":\"12.835423\",\"locationId\":1,\"locationName\":\"wonderla\",\"longitude\":\"77.400913\",\"places\":[{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":10,\"time\":\"12:00\"},\"placeId\":1,\"placeName\":\"dungeonride\",\"placeSize\":100,\"threshold\":50},{\"latitude\":\"12.834556\",\"longitude\":\"77.4001127\",\"placeDensity\":{\"density\":100,\"time\":\"20:00\"},\"placeId\":2,\"placeName\":\"XDMax\",\"placeSize\":200,\"threshold\":100}]}}";
 				var theList = JSON.parse(sampleJSON);
 				console.log(theList);
 				
